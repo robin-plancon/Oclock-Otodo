@@ -110,7 +110,7 @@ const taskManager = {
             // On vérifie que la requete a bien fonctionné
             const result = await response.json();
             console.log(result);
-            
+
             // On supprime l'élément dans la page HTML
             taskHtmlElement.remove();
         } catch (error) {
@@ -137,7 +137,7 @@ const taskManager = {
      * 
      * @param {Event} event 
      */
-    handleEditForm: function (event) {
+    handleEditForm: async function (event) {
         // Bloquer l'envoie du formulaire
         event.preventDefault();
 
@@ -151,7 +151,18 @@ const taskManager = {
         const taskId = taskFormData.get('id');
 
         // Envoyer les données à l'API
+        try {
+            const response = await fetch(`${taskManager.apiEndpoint}/tasks/${taskId}`, {
+                method: "PATCH",
+                body: taskFormData
+            });
+            const result = await response.json();
+            // Après confirmation de l'API modifier le nom de la tâche dans le span.task__name
+            taskHtmlElement.querySelector('.task__name').textContent = result[1][0].name;
 
+        } catch (error) {
+            console.error(error);
+        }
 
         // Après confirmation de l'API modifier le nom de la tâche dans le span.task__name
 
