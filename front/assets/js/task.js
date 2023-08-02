@@ -108,11 +108,14 @@ const taskManager = {
             });
 
             // On vérifie que la requete a bien fonctionné
-            const result = await response.json();
-            console.log(result);
+            if (response.status !== 204) {
+                console.error('La requête n\'a pas abouti');
+                return;
+            }
 
             // On supprime l'élément dans la page HTML
             taskHtmlElement.remove();
+            utilsModule.showNotification('La tâche a bien été supprimée');
         } catch (error) {
             console.error(error);
         }

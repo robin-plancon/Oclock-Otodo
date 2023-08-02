@@ -18,6 +18,11 @@
     <div class="container is-max-desktop p-3">
         <h1 class="title is-3 has-text-centered">Mes tâches à faire</h1>
 
+        <div class="notification is-hidden" id="notification">
+            <button class="delete" id="hide-notification"></button>
+            <span class="notification__message"></span>
+        </div>
+
        <div class="tasks">
 
        </div>
@@ -39,7 +44,6 @@
         </form>
 
     </div>
-
 
     <template class="template-task">
         <div class="box task">
@@ -64,6 +68,7 @@
 
     <script src="./assets/js/app.js"></script>
     <script src="./assets/js/task.js"></script>
+    <script src="./assets/js/utils.js"></script>
 
 </body>
 

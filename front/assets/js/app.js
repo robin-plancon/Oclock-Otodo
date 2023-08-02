@@ -17,6 +17,8 @@ const app = {
         // On écoute la soumission du formulaire d'ajout
         document.querySelector('.create-task').addEventListener('submit', taskManager.handleCreateForm);
 
+        // 
+        document.getElementById('hide-notification').addEventListener('click', utilsModule.hideNotification);
     }
 
 };
