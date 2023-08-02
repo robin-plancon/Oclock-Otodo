@@ -16,7 +16,6 @@ const taskManager = {
             // pour chaque tâche appeler la fonction insertTaskInHtml()
             taskManager.insertTaskInHtml(task);
         });
-
     },
 
     /**
@@ -64,17 +63,30 @@ const taskManager = {
      * 
      * @param {Event} event 
      */
-    handleCreateForm: function (event) {
+    handleCreateForm: async function (event) {
         // Bloquer l'envoie du formulaire
         event.preventDefault();
 
         // Récupérer les données du formulaire
         const taskFormData = new FormData(event.currentTarget);
 
-        // Envoyer les données à l'API
+        try {
+            // Envoyer les données à l'API
+            const response = await fetch(`${taskManager.apiEndpoint}/tasks`, {
+                method: 'POST',
+                body: taskFormData
+            });
 
-        // Après confirmation de l'API insérer la tâche dans la page (il y a une fonction toute prete pour ça ;) 
-        // en utilisant la valeur de retour de l'API
+            // Après confirmation de l'API insérer la tâche dans la page (il y a une fonction toute prete pour ça ;) 
+            // en utilisant la valeur de retour de l'API
+            const task = await response.json();
+            taskManager.insertTaskInHtml(task);
+
+            // Vider le formulaire
+            event.target.reset();
+        } catch (error) {
+            console.error(error);
+        }
 
     },
 
@@ -83,16 +95,27 @@ const taskManager = {
      * 
      * @param {Event} event 
      */
-    handleDeleteButton: function (event) {
+    handleDeleteButton: async function (event) {
 
         // On récupère l'ID de l'élément à supprimer
         const taskHtmlElement = event.currentTarget.closest('.task');
         const taskId = taskHtmlElement.dataset.id;
 
-        // On envoie la requete de suppression à l'API
+        try {
+            // On envoie la requete de suppression à l'API
+            const response = await fetch(`${taskManager.apiEndpoint}/tasks/${taskId}`, {
+                method: 'DELETE'
+            });
 
-        // On supprime l'élément dans la page HTML
-
+            // On vérifie que la requete a bien fonctionné
+            const result = await response.json();
+            console.log(result);
+            
+            // On supprime l'élément dans la page HTML
+            taskHtmlElement.remove();
+        } catch (error) {
+            console.error(error);
+        }
     },
 
     /**

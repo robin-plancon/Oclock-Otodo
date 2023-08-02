@@ -46,7 +46,7 @@ const taskController = {
             if (task === 0) {
                 return res.status(404).json('Task not found');
             }
-            return res.json('Task deleted');
+            return res.status(204).json();
         } catch (err) {
             console.trace(err);
             res.status(500).json(err.toString());
